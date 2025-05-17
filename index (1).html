@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中国外籍院士发展委员会</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind 配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#003366', // 深蓝色主色调
+            secondary: '#005599', // 中蓝色辅助色
+            accent: '#FF6600', // 橙色强调色
+            light: '#F5F7FA', // 浅灰色背景
+            dark: '#232F3E', // 深灰色文本
+          },
+          fontFamily: {
+            'noto': ['Noto Sans SC', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .hover-scale {
+        transition: transform 0.2s ease-in-out;
+      }
+      .hover-scale:hover {
+        transform: scale(1.02);
+      }
+      .card-shadow {
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.05);
+      }
+      .nav-shadow {
+        box-shadow: 0 4px 12px rgba(0, 51, 102, 0.08);
+      }
+    }
+  </style>
+</head>
+
+<body class="font-noto bg-light text-dark">
+  <!-- 顶部公告栏 -->
+  <div class="bg-primary text-white py-2 px-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="text-sm md:text-base">
+        <i class="fa-solid fa-bullhorn mr-2"></i>
+        <span>2025年度外籍院士增选工作将于6月1日正式启动，详情请查看 <a href="#" class="underline hover:text-accent">通知公告</a></span>
+      </div>
+      <div class="hidden md:flex space-x-4">
+        <a href="#" class="text-white hover:text-accent transition-custom">
+          <i class="fa-brands fa-weixin mr-1"></i> 微信公众号
+        </a>
+        <a href="#" class="text-white hover:text-accent transition-custom">
+          <i class="fa-brands fa-weibo mr-1"></i> 微博
+        </a>
+        <a href="#" class="text-white hover:text-accent transition-custom">
+          <i class="fa-brands fa-youtube mr-1"></i> YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full bg-white z-50 transition-all duration-300 nav-shadow">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16 md:h-20">
+        <div class="flex items-center">
+          <a href="#" class="flex items-center">
+            <div class="w-12 h-12 md:w-16 md:h-16 rounded-lg bg-primary flex items-center justify-center text-white text-2xl font-bold">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div class="ml-3">
+              <div class="text-lg md:text-xl font-bold text-primary">中国外籍院士发展委员会</div>
+              <div class="text-xs md:text-sm text-gray-500">FOREIGN ACADEMICIANS DEVELOPMENT COMMITTEE</div>
+            </div>
+          </a>
+        </div>
+        
+        <!-- 桌面导航 -->
+        <nav class="hidden md:flex space-x-6">
+          <a href="#home" class="text-primary font-medium hover:text-secondary transition-custom px-2 py-1">首页</a>
+          <a href="#about" class="text-gray-700 font-medium hover:text-primary transition-custom px-2 py-1">关于我们</a>
+          <a href="#work" class="text-gray-700 font-medium hover:text-primary transition-custom px-2 py-1">工作内容</a>
+          <a href="#members" class="text-gray-700 font-medium hover:text-primary transition-custom px-2 py-1">院士成员</a>
+          <a href="#news" class="text-gray-700 font-medium hover:text-primary transition-custom px-2 py-1">新闻动态</a>
+          <a href="#contact" class="text-gray-700 font-medium hover:text-primary transition-custom px-2 py-1">联系我们</a>
+        </nav>
+        
+        <!-- 移动端菜单按钮 -->
+        <div class="md:hidden">
+          <button id="menu-toggle" class="text-primary hover:text-secondary">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+        
+        <!-- 搜索按钮 -->
+        <div class="hidden md:block">
+          <button class="text-primary hover:text-secondary transition-custom">
+            <i class="fa-solid fa-search text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#home" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-primary">首页</a>
+        <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">关于我们</a>
+        <a href="#work" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">工作内容</a>
+        <a href="#members" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">院士成员</a>
+        <a href="#news" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">新闻动态</a>
+        <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100">联系我们</a>
+        <div class="mt-4 p-3 bg-gray-100 rounded-md">
+          <div class="relative">
+            <input type="text" placeholder="搜索..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 英雄区 -->
+  <section id="home" class="pt-24 md:pt-32 pb-16 md:pb-24 bg-gradient-to-br from-primary/90 to-secondary">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-10 md:mb-0 text-white">
+          <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold leading-tight">
+            汇聚全球智慧<br>
+            <span class="text-accent">推动科技进步</span>
+          </h1>
+          <p class="mt-4 text-lg md:text-xl text-white/90 max-w-xl">
+            中国外籍院士发展委员会致力于促进国际科技合作与交流，汇聚全球顶尖学术人才，助力中国科技创新与发展。
+          </p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="#work" class="bg-white text-primary hover:bg-white/90 px-6 py-3 rounded-md font-medium transition-custom flex items-center">
+              <i class="fa-solid fa-book mr-2"></i> 了解工作内容
+            </a>
+            <a href="#members" class="bg-accent hover:bg-accent/90 text-white px-6 py-3 rounded-md font-medium transition-custom flex items-center">
+              <i class="fa-solid fa-users mr-2"></i> 院士名录
+            </a>
+          </div>
+        </div>
+        
+        <div class="md:w-1/2 flex justify-center md:justify-end">
+          <div class="relative">
+            <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+              <img src="https://picsum.photos/seed/academy/400/400" alt="院士合影" class="w-60 h-60 md:w-76 md:h-76 rounded-full object-cover border-4 border-white/20 shadow-xl">
+            </div>
+            <div class="absolute -bottom-4 -right-4 bg-white p-4 rounded-lg shadow-lg hover-scale">
+              <div class="flex items-center">
+                <div class="text-3xl font-bold text-primary">127</div>
+                <div class="ml-3">
+                  <div class="text-sm font-medium text-secondary">外籍院士</div>
+                  <div class="text-xs text-gray-500">覆盖23个学科领域</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 数据统计 -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="bg-white/10 backdrop-blur-sm p-6 rounded-lg text-center hover-scale">
+          <div class="text-3xl md:text-4xl font-bold text-accent mb-2">127</div>
+          <div class="text-white text-sm md:text-base">外籍院士总数</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-6 rounded-lg text-center hover-scale">
+          <div class="text-3xl md:text-4xl font-bold text-accent mb-2">23</div>
+          <div class="text-white text-sm md:text-base">学科领域覆盖</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-6 rounded-lg text-center hover-scale">
+          <div class="text-3xl md:text-4xl font-bold text-accent mb-2">42</div>
+          <div class="text-white text-sm md:text-base">国际合作项目</div>
+        </div>
+        <div class="bg-white/10 backdrop-blur-sm p-6 rounded-lg text-center hover-scale">
+          <div class="text-3xl md:text-4xl font-bold text-accent mb-2">38</div>
+          <div class="text-white text-sm md:text-base">年度学术活动</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于我们 -->
+  <section id="about" class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-primary">关于我们</h2>
+        <div class="w-20 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
+        <p class="mt-6 text-gray-600 max-w-3xl mx-auto">
+          中国外籍院士发展委员会成立于2005年，是在国家相关部门支持下，由国内顶尖科研机构和高校共同发起的非营利性学术组织。
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h3 class="text-2xl font-semibold text-secondary mb-4">发展历程</h3>
+          <div class="space-y-6">
+            <div class="flex">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                2005
+              </div>
+              <div class="ml-4">
+                <h4 class="font-medium text-secondary">委员会成立</h4>
+                <p class="text-gray-600 mt-1">由中国科学院、中国工程院联合发起，首批吸纳23位国际顶尖科学家为外籍院士</p>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                2010
+              </div>
+              <div class="ml-4">
+                <h4 class="font-medium text-secondary">首次全球学术峰会</h4>
+                <p class="text-gray-600 mt-1">成功举办首届"中国外籍院士论坛"，吸引来自20多个国家的100余位专家参会</p>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                2015
+              </div>
+              <div class="ml-4">
+                <h4 class="font-medium text-secondary">设立国际合作基金</h4>
+                <p class="text-gray-600 mt-1">设立"外籍院士国际合作基金"，支持跨学科、跨领域的国际科研合作项目</p>
+              </div>
+            </div>
+            <div class="flex">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                2020
+              </div>
+              <div class="ml-4">
+                <h4 class="font-medium text-secondary">数字化转型</h4>
+                <p class="text-gray-600 mt-1">建立"外籍院士智慧服务平台"，实现学术资源共享、合作项目在线管理等功能</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-light rounded-xl shadow-lg overflow-hidden hover-scale">
+          <img src="https://picsum.photos/seed/academy2/600/400" alt="外籍院士合影" class="w-full h-64 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-secondary mb-3">使命与愿景</h3>
+            <p class="text-gray-600 mb-4">
+              委员会以"汇聚全球智慧，推动科技进步"为使命，致力于搭建国际顶尖学术交流平台，促进中外科技界深度合作，提升中国在全球科技领域的影响力。
+            </p>
+            <h3 class="text-xl font-semibold text-secondary mb-3">主要职责</h3>
+            <ul class="space-y-2">
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-accent mt-1 mr-2"></i>
+                <span class="text-gray-600">组织中外科学家开展高水平学术交流与合作研究</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-accent mt-1 mr-2"></i>
+                <span class="text-gray-600">为国家重大科技决策提供战略咨询</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-accent mt-1 mr-2"></i>
+                <span class="text-gray-600">推荐和选拔国际顶尖科学家担任外籍院士</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-accent mt-1 mr-2"></i>
+                <span class="text-gray-600">推动科研成果转化与应用，服务国家经济社会发展</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fa-solid fa-check-circle text-accent mt-1 mr-2"></i>
+                <span class="text-gray-600">培养和扶持青年科技人才，提升中国科研队伍整体水平</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 工作内容 -->
+  <section id="work" class="py-16 bg-light">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-primary">工作内容</h2>
+        <div class="w-20 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
+        <p class="mt-6 text-gray-600 max-w-3xl mx-auto">
+          委员会围绕学术交流、科研合作、战略咨询等核心任务，开展多项重点工作，全面推动国际科技合作与交流。
+        </p>
+      </div>
+      
+      <!-- 工作分类标签 -->
+      <div class="flex flex-wrap justify-center gap-3 mb-10">
+        <button class="work-tab active px-5 py-2 rounded-full bg-primary text-white transition-custom" data-tab="all">
+          全部工作
+        </button>
+        <button class="work-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="交流">
+          学术交流
+        </button>
+        <button class="work-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="合作">
+          科研合作
+        </button>
+        <button class="work-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="咨询">
+          战略咨询
+        </button>
+        <button class="work-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="评选">
+          院士评选
+        </button>
+        <button class="work-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="人才">
+          人才培养
+        </button>
+      </div>
+      
+      <!-- 工作内容卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- 工作卡片1 -->
+        <div class="work-item bg-white rounded-xl shadow-md overflow-hidden hover-scale card-shadow" data-category="交流">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/seed/work1/600/400" alt="国际学术论坛" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-accent/10 text-accent text-xs font-medium px-2.5 py-0.5 rounded">学术交流</span>
+              <span class="text-gray-500 text-xs">常规工作</span>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary mb-2">国际学术论坛</h3>
+            <p class="text-gray-600 mb-4">
+              每年举办2-3场高水平国际学术论坛，聚焦前沿科技领域，邀请全球顶尖科学家分享最新研究成果与发展趋势。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom inline-flex items-center">
+              了解详情 <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 工作卡片2 -->
+        <div class="work-item bg-white rounded-xl shadow-md overflow-hidden hover-scale card-shadow" data-category="合作">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/seed/work2/600/400" alt="科研合作项目" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-accent/10 text-accent text-xs font-medium px-2.5 py-0.5 rounded">科研合作</span>
+              <span class="text-gray-500 text-xs">重点工作</span>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary mb-2">国际科研合作项目</h3>
+            <p class="text-gray-600 mb-4">
+              组织实施"外籍院士国际合作计划"，支持中外科学家联合开展前沿科学研究，推动关键技术突破。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom inline-flex items-center">
+              了解详情 <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 工作卡片3 -->
+        <div class="work-item bg-white rounded-xl shadow-md overflow-hidden hover-scale card-shadow" data-category="咨询">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/seed/work3/600/400" alt="科技战略咨询" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-accent/10 text-accent text-xs font-medium px-2.5 py-0.5 rounded">战略咨询</span>
+              <span class="text-gray-500 text-xs">核心工作</span>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary mb-2">国家科技战略咨询</h3>
+            <p class="text-gray-600 mb-4">
+              组织外籍院士为国家重大科技决策提供专业咨询，撰写战略研究报告，助力科技政策制定。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom inline-flex items-center">
+              了解详情 <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 工作卡片4 -->
+        <div class="work-item bg-white rounded-xl shadow-md overflow-hidden hover-scale card-shadow" data-category="评选">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/seed/work4/600/400" alt="外籍院士评选" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-accent/10 text-accent text-xs font-medium px-2.5 py-0.5 rounded">院士评选</span>
+              <span class="text-gray-500 text-xs">年度工作</span>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary mb-2">外籍院士增选</h3>
+            <p class="text-gray-600 mb-4">
+              每两年组织一次外籍院士增选工作，选拔在科学技术领域取得卓越成就的国际科学家。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom inline-flex items-center">
+              了解详情 <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 工作卡片5 -->
+        <div class="work-item bg-white rounded-xl shadow-md overflow-hidden hover-scale card-shadow" data-category="人才">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/seed/work5/600/400" alt="青年人才培养" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-accent/10 text-accent text-xs font-medium px-2.5 py-0.5 rounded">人才培养</span>
+              <span class="text-gray-500 text-xs">长期工作</span>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary mb-2">青年科学家培养计划</h3>
+            <p class="text-gray-600 mb-4">
+              设立"外籍院士青年科学家基金"，支持优秀青年学者开展创新研究，促进国际学术交流。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom inline-flex items-center">
+              了解详情 <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 工作卡片6 -->
+        <div class="work-item bg-white rounded-xl shadow-md overflow-hidden hover-scale card-shadow" data-category="交流">
+          <div class="h-48 overflow-hidden">
+            <img src="https://picsum.photos/seed/work6/600/400" alt="学术讲座" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+          </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-accent/10 text-accent text-xs font-medium px-2.5 py-0.5 rounded">学术交流</span>
+              <span class="text-gray-500 text-xs">常规工作</span>
+            </div>
+            <h3 class="text-xl font-semibold text-secondary mb-2">院士学术讲座</h3>
+            <p class="text-gray-600 mb-4">
+              组织外籍院士在国内高校和科研机构举办专题讲座，分享前沿科技进展和研究经验。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom inline-flex items-center">
+              了解详情 <i class="fa-solid fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 查看更多按钮 -->
+      <div class="text-center mt-12">
+        <a href="#" class="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-md font-medium transition-custom">
+          查看全部工作内容 <i class="fa-solid fa-chevron-right ml-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 院士成员 -->
+  <section id="members" class="py-16 bg-white">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-primary">院士成员</h2>
+        <div class="w-20 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
+        <p class="mt-6 text-gray-600 max-w-3xl mx-auto">
+          中国外籍院士发展委员会现有127位来自全球23个国家和地区的顶尖科学家，覆盖多个学科领域。
+        </p>
+      </div>
+      
+      <!-- 学科筛选 -->
+      <div class="flex flex-wrap justify-center gap-3 mb-10">
+        <button class="member-tab active px-5 py-2 rounded-full bg-primary text-white transition-custom" data-tab="all">
+          全部学科
+        </button>
+        <button class="member-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="physics">
+          物理学
+        </button>
+        <button class="member-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="chemistry">
+          化学
+        </button>
+        <button class="member-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="biology">
+          生物学
+        </button>
+        <button class="member-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="computer">
+          计算机科学
+        </button>
+        <button class="member-tab px-5 py-2 rounded-full bg-white text-gray-700 hover:bg-primary/10 transition-custom" data-tab="materials">
+          材料科学
+        </button>
+      </div>
+      
+      <!-- 院士列表 -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- 院士卡片1 -->
+        <div class="member-item bg-light rounded-xl shadow-sm overflow-hidden hover-scale card-shadow" data-category="physics">
+          <div class="relative">
+            <img src="https://picsum.photos/seed/member1/300/400" alt="院士照片" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent p-4">
+              <h3 class="text-xl font-semibold text-white">Michael Anderson</h3>
+              <p class="text-white/90 text-sm">美国科学院院士</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded">物理学</span>
+              <span class="text-gray-500 text-xs">2010年当选</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">
+              加州大学伯克利分校教授，凝聚态物理领域国际权威专家，在高温超导研究方面取得突破性成果。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom text-sm inline-flex items-center">
+              查看详情 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 院士卡片2 -->
+        <div class="member-item bg-light rounded-xl shadow-sm overflow-hidden hover-scale card-shadow" data-category="chemistry">
+          <div class="relative">
+            <img src="https://picsum.photos/seed/member2/300/400" alt="院士照片" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent p-4">
+              <h3 class="text-xl font-semibold text-white">Sophie Dubois</h3>
+              <p class="text-white/90 text-sm">法国科学院院士</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded">化学</span>
+              <span class="text-gray-500 text-xs">2012年当选</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">
+              巴黎索邦大学教授，有机合成化学领域杰出科学家，开发了多种新型催化剂，推动绿色化学发展。
+            </p>
+            <a href="#" class="text-primary hover:text-secondary transition-custom text-sm inline-flex items-center">
+              查看详情 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- 院士卡片3 -->
+        <div class="member-item bg-light rounded-xl shadow-sm overflow-hidden hover-scale card-shadow" data-category="biology">
+          <div class="relative">
+            <img src="https://picsum.photos/seed/member3/300/400" alt="院士照片" class="w-full h-64 object-cover">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-primary/80 to-transparent p-4">
+              <h3 class="text-xl font-semibold text-white">Yoshida Kenji</h3>
+              <p class="text-white/90 text-sm">日本学士院院士</p>
+            </div>
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between items-center mb-3">
+              <span class="bg-primary/10 text-primary text-xs font-medium px-2.5 py-0.5 rounded">生物学</span>
+              <span class="text-gray-500 text-xs">2015年当选</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">
+              东京大学教授，分子生物学与遗传学专家，在基因编辑技术研究方面取得重要突破，推动精准医学发展。
+            </p>
+            
